@@ -14,10 +14,11 @@
       font-family: system-ui, sans-serif;
     }
     #player-container {
-      width: 800px;
-      height: 600px;
-      max-width: 100vw;
-      max-height: 100vh;
+      /* SWF stage is 1200×800 (3:2). Scale to fill the viewport. */
+      width: 95vw;
+      height: calc(95vw / 1.5);
+      max-height: 95vh;
+      max-width: calc(95vh * 1.5);
     }
     #error-message {
       display: none;
