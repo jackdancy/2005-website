@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trufflepig</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; background: #1a1a1a; }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, sans-serif;
+    }
+    #player-container {
+      width: 800px;
+      height: 600px;
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+    #error-message {
+      display: none;
+      color: #ccc;
+      text-align: center;
+      padding: 2rem;
+      max-width: 480px;
+    }
+    #error-message h1 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    #error-message p  { font-size: 0.9rem; color: #999; }
+  </style>
+</head>
+<body>
+
+  <div id="player-container"></div>
+
+  <div id="error-message">
+    <h1>Could not load the Flash content.</h1>
+    <p>Make sure <code>trufflepig.swf</code> is in the same folder as this page
+       and that you are serving the site over HTTP (not opening the file directly).</p>
+  </div>
+
+  <script>
+    window.RufflePlayer = window.RufflePlayer || {};
+  </script>
+  <!-- Self-hosted Ruffle (copied from @ruffle-rs/ruffle npm package) -->
+  <script src="ruffle/ruffle.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      try {
+        const ruffle = window.RufflePlayer.newest();
+        const player = ruffle.createPlayer();
+        const container = document.getElementById("player-container");
+        player.style.width = "100%";
+        player.style.height = "100%";
+        container.appendChild(player);
+        player.ruffle().load("trufflepig.swf").catch(() => {
+          container.style.display = "none";
+          document.getElementById("error-message").style.display = "block";
+        });
+      } catch (e) {
+        document.getElementById("player-container").style.display = "none";
+        document.getElementById("error-message").style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
