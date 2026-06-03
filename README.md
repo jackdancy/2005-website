@@ -1,64 +1,41 @@
 # Trufflepig — Archived Flash Website
 
-Static site that plays the original Trufflepig Flash website using the
-[Ruffle](https://ruffle.rs) emulator.
+The original Trufflepig website (circa 2005), preserved as a static site using
+the [Ruffle](https://ruffle.rs) Flash emulator.
 
-## Quick start
+**Live site:** https://jackdancy.github.io/2005-website/
+
+## About
+
+This is a single self-contained Adobe Flash file (`trufflepig.swf`) — all
+assets, photos, text, and navigation are baked into the SWF. The site embeds it
+via a self-hosted copy of the Ruffle JavaScript player so it runs in any modern
+browser without Flash installed.
+
+- SWF stage size: 1200 x 800 (3:2)
+- Flash version: 6
+- Player scales to fill the browser viewport
+
+## Running locally
 
 ```bash
 npm install
 npm start
 ```
 
-Open **http://localhost:3000** in your browser.
-
-## Adding the SWF
-
-Drop your `.swf` file into the project root (next to `index.html`) and name it
-**`trufflepig.swf`**. If your file has a different name, either rename it or
-update the `src` attribute on the `<ruffle-embed>` tag in `index.html`.
+Open **http://localhost:3000** in your browser. The SWF must be served over HTTP
+(not opened as a `file://` path) for Ruffle to load it.
 
 ## Project structure
 
 ```
-.
-├── index.html          # The page — embeds the SWF via Ruffle
-├── ruffle/             # Self-hosted Ruffle player files (from npm)
-├── trufflepig.swf      # ← your Flash file goes here
-├── package.json
-└── README.md
+index.html          # Single-page site — loads Ruffle and plays the SWF
+ruffle/             # Self-hosted Ruffle player (from @ruffle-rs/ruffle npm package)
+trufflepig.swf      # The original Flash file
+package.json        # Dev server (serve) and Ruffle dependency
 ```
 
-## Adjusting the player size
+## Deployment
 
-The player defaults to 800 × 600. If your SWF has a different stage size, edit
-the `width` / `height` on the `<ruffle-embed>` tag and the matching CSS in
-`#player-container`.
-
-## Deploying to a static host
-
-Upload the following files/folders — nothing else is needed:
-
-- `index.html`
-- `ruffle/` (entire directory)
-- `trufflepig.swf`
-
-### GitHub Pages
-
-Push those files to a repo, go to **Settings → Pages**, and set the source to
-the branch/folder containing them.
-
-### Netlify / Cloudflare Pages
-
-Point the site at the repo (or drag-and-drop the files above). No build command
-is needed — it's all static.
-
-### MIME type note
-
-Most static hosts serve `.swf` as `application/x-shockwave-flash` by default.
-If your host doesn't, add a `_headers` file (Netlify/Cloudflare) or equivalent:
-
-```
-/*.swf
-  Content-Type: application/x-shockwave-flash
-```
+The site is deployed to GitHub Pages from the `main` branch. Any push to `main`
+triggers a rebuild. No build step is needed — everything is static.
